@@ -32,8 +32,6 @@ function App() {
                   return response.json();
               })
               .then((jsondata) => {
-                 /* const jsonString = JSON.stringify(jsondata);
-                  setData(jsonString); */
                   console.log(Object.entries(jsondata))
                   setData(Object.entries(jsondata))
               })
@@ -70,12 +68,10 @@ function App() {
       setSearch("")
       initialRender.current = false
   }
-
-
-
+  
   return (
     <div className="App">
-      <header className="App-header">Finance Project</header>
+      <header className="App-header">Stock Quotes</header>
       <SearchBar
         submit={handleSubmit}
         search={search}
