@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 
 /* need error messaging if ticker symbol doesn't exist */
 /* need loading animation/message */
+/* bugs arise when invalid ticker symbol is entered and submitted */
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         if (initialRender.current === false) {
             fetch(url, {method: "GET"})
                 .then((response) => {
+                    
                     if (!response.ok) {
                         throw new Error(
                             `This is an HTTP error: The status is ${response.status}`
@@ -38,7 +40,8 @@ function App() {
                     return response.json();
                 })
                 .then((jsondata) => {
-                    console.log(Object.entries(jsondata))
+                    console.log(jsondata)
+                    //console.log(Object.entries(jsondata))
                     setData(Object.entries(jsondata))
                 })
                 .catch((err) => {
@@ -65,9 +68,9 @@ function App() {
   useEffect(() => {
       console.log('effect3 ran')
       if (initialRender.current === false) {
-          console.log(meta[1])
+          //console.log(meta[1])
           setMetaObj(meta[1])
-          console.log(Object.values(dataValues[1]))
+          //console.log(Object.values(dataValues[1]))
           setDataArray(Object.values(dataValues[1]))
       } 
   }, [meta]);
@@ -75,7 +78,7 @@ function App() {
   useEffect(() => {
     console.log('effect4 ran')
     if (initialRender.current === false) {
-        console.log(dataArray[0])
+        //console.log(dataArray[0])
         setRecentDataObject(dataArray[0])
     }
 }, [dataArray]);
