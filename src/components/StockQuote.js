@@ -1,17 +1,12 @@
 
 
-const StockQuote = () => {
+const StockQuote = (props) => {
 
     return (
         <section>
-            <h1>Ticker Symbol</h1>
-            <p>
-                <span>Open</span>
-                <span>High</span>
-                <span>Low</span>
-                <span>Close</span>
-                <span>Voume</span>
-            </p>
+            <h1>Symbol: {props.metaObj[ '2. Symbol' ]}</h1>
+            <h2>Last Refreshed: {props.metaObj['3. Last Refreshed']}</h2>
+            <h3>Type of Data: {props.metaObj['1. Information']}</h3>
         </section>
     )
 }

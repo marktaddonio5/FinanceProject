@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import StockQuote from './components/StockQuote';
-
+import { useState, useEffect, useRef } from "react";
 /* Add a way to save certain stocks */
 
 function App() {
@@ -76,8 +76,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">Finance Project</header>
-      <SearchBar />
-      <StockQuote />
+      <SearchBar
+        submit={handleSubmit}
+        search={search}
+        setSearch={setSearch}
+      />
+      <StockQuote
+        metaObj={metaObj}
+      />
     </div>
   );
 }
