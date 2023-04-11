@@ -20,7 +20,7 @@ function App() {
   const [dataArray, setDataArray] = useState('')
   const [recentDataObj, setRecentDataObject] = useState('')
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
     let url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}&apikey=SDBO2DT8VQU27H16`;
 
@@ -31,7 +31,7 @@ function App() {
         if (initialRender.current === false) {
             fetch(url, {method: "GET"})
                 .then((response) => {
-                    
+                    //console.log(response)
                     if (!response.ok) {
                         throw new Error(
                             `This is an HTTP error: The status is ${response.status}`
@@ -39,25 +39,30 @@ function App() {
                     }
                     return response.json();
                 })
+                .catch((err) => {
+                    //console.log(err.message);
+                    setError(err.message);
+                })
                 .then((jsondata) => {
+                    //console.log(jsondata)
                     console.log(jsondata)
-                    //console.log(Object.entries(jsondata))
-                    setData(Object.entries(jsondata))
+                    if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messags the ones provided by the API?
+                    else if (jsondata['Note']) { throw new Error(`API calls exceeded`) }
+                    else { setData(Object.entries(jsondata))}
                 })
                 .catch((err) => {
-                    console.log(err.message);
+                    //console.log(err.message);
                     setError(err.message);
-                    setData(null)
                 })
                 .finally(() => {
                     setLoading(false)
                 })
-        }
+        };
   }, [url]);
 
   useEffect(() => {
       console.log('effect2 ran')
-      if (initialRender.current === false) {
+      if (initialRender.current === false ) {
           //console.log(data[0])
           setMeta(data[0])
           //console.log(Object.values(data[1]))
@@ -86,10 +91,12 @@ function App() {
   function handleSubmit(e){
       e.preventDefault();
       setTicker(search);
-      setSearch("")
-      initialRender.current = false
+      setSearch("");
+      initialRender.current = false;
+      setError('')
+      
   }
-  
+
   return (
     <div className="App">
       <header className="App-header">Stock Quotes</header>
@@ -98,6 +105,7 @@ function App() {
         search={search}
         setSearch={setSearch}
       />
+      {error}
       <StockQuote
         metaObj={metaObj}
         dataArray={dataArray}
