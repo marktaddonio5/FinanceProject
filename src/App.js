@@ -73,7 +73,7 @@ function App() {
           //console.log(Object.values(data[1]))
           setDataValues(Object.values(data[1]))
       } 
-  }, [data]);
+  }, [data, initialRender]);
 
   useEffect(() => {
       console.log('effect3 ran')
@@ -122,7 +122,7 @@ function App() {
         searchType={searchType}
         setSearchType={setSearchType}
       />
-      {error}
+      <h3 style={error ? {color: "red", borderStyle: "solid", borderColor: "red"} : null}>{error}</h3>
       <StockQuote
         metaObj={metaObj}
         dataArray={dataArray}
