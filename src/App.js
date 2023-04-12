@@ -12,23 +12,28 @@ import { useState, useEffect, useRef } from "react";
 function App() {
 
   const [ticker, setTicker] = useState("");
+  const [tickerType, setTickerType] = useState();
   const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState('Daily Time Series with Splits and Dividend Events')
+  const [interval, setInterval] = useState('')
   const [data, setData] = useState("");
   const [meta, setMeta] = useState("");
   const [metaObj, setMetaObj] = useState('');
   const [dataValues, setDataValues] = useState('');
   const [dataArray, setDataArray] = useState('')
   const [recentDataObj, setRecentDataObject] = useState('')
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState("false");
   const [error, setError] = useState('');
 
-    let url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}&apikey=SDBO2DT8VQU27H16`;
+    let url = `https://www.alphavantage.co/query?function=${tickerType}&symbol=${ticker}${interval}&apikey=SDBO2DT8VQU27H16`;
 
     const initialRender = useRef(true);
 
     useEffect(() => {
         console.log('effect ran')
         if (initialRender.current === false) {
+            setLoading(true)
+            console.log(url)
             fetch(url, {method: "GET"})
                 .then((response) => {
                     //console.log(response)
@@ -44,9 +49,9 @@ function App() {
                     setError(err.message);
                 })
                 .then((jsondata) => {
-                    //console.log(jsondata)
                     console.log(jsondata)
-                    if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messags the ones provided by the API?
+                    console.log(jsondata)
+                    if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messages the ones provided by the API?
                     else if (jsondata['Note']) { throw new Error(`API calls exceeded`) }
                     else { setData(Object.entries(jsondata))}
                 })
@@ -89,12 +94,22 @@ function App() {
 }, [dataArray]);
 
   function handleSubmit(e){
-      e.preventDefault();
-      setTicker(search);
-      setSearch("");
-      initialRender.current = false;
-      setError('')
-      
+    e.preventDefault();
+    
+    if (searchType === "Daily Time Series with Splits and Dividend Events") {
+        setTickerType('TIME_SERIES_DAILY_ADJUSTED')
+        
+    } else if (searchType === "Intraday (5min) open, high, low, close prices and volume") {
+        setInterval("&interval=5min")
+        setTickerType('TIME_SERIES_INTRADAY')
+        
+    }
+    setTicker(search)
+    setSearch("");
+    initialRender.current = false;
+    setError('')
+    setRecentDataObject('')
+    setMetaObj('')
   }
 
   return (
@@ -104,12 +119,15 @@ function App() {
         submit={handleSubmit}
         search={search}
         setSearch={setSearch}
+        searchType={searchType}
+        setSearchType={setSearchType}
       />
       {error}
       <StockQuote
         metaObj={metaObj}
         dataArray={dataArray}
         recentDataObj={recentDataObj}
+        loading={loading}
       />
     </div>
   );

@@ -2,8 +2,12 @@ import { useState } from "react"
 
 const StockQuote = (props) => {
 
+    if (props.loading === true) 
+    return (
+        <h1>loading</h1>
+    )
 
-
+    if (props.loading === false)
     return (
         <section>
             <h1>{props.metaObj[ '2. Symbol' ]}</h1>
