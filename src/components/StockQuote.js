@@ -8,7 +8,7 @@ function dataObjectLoopKey(object){
         return (
             <th>{key}</th>
         )
-    })
+    });
     return displayKey;
 }
 
@@ -18,10 +18,9 @@ function dataObjectLoopVal(object) {
         return (
             <td>{val}</td>
         )
-    })
+    });
     return displayVal;
 }
-
 
 const StockQuote = (props) => {
     if (props.loading === true) 
@@ -39,31 +38,17 @@ const StockQuote = (props) => {
             <table id="dataList" style={{listStyle: "none", width: "100vw"}}> 
                 <tbody>
                 <tr>
+                    <th>Symbol</th>
                     {dataObjectLoopKey(props.recentDataObj)}
                 </tr>
                 <tr>
+                    <td>{props.metaObj['2. Symbol']}</td>
                     {dataObjectLoopVal(props.recentDataObj)}
                 </tr>
                 </tbody>
             </table>
         </section>
     )
-}
-/*
-<th>Ticker Symbol</th>
-                    <th>Open</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Close</th>
-                    <th>Adjusted Close</th>
-                    <th>Volume</th>
-<td>{props.metaObj[ '2. Symbol' ]}</td>
-                    <td>{props.recentDataObj['1. open']}</td>
-                    <td>{props.recentDataObj['2. high']}</td>
-                    <td>{props.recentDataObj['3. low']}</td>
-                    <td>{props.recentDataObj['4. close']}</td>
-                    <td>{props.recentDataObj['5. adjusted close']}</td>
-                    <td>{props.recentDataObj['6. volume']}</td>
-                    */
+};
 
 export default StockQuote;
