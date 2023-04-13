@@ -15,6 +15,7 @@ function App() {
   const [tickerType, setTickerType] = useState();
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState('Daily Time Series with Splits and Dividend Events')
+  const [intervalType, setIntervalType] = useState()
   const [interval, setInterval] = useState('')
   const [data, setData] = useState("");
   const [meta, setMeta] = useState("");
@@ -52,7 +53,7 @@ function App() {
                     console.log(jsondata)
                     console.log(jsondata)
                     if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messages the ones provided by the API?
-                    else if (jsondata['Note']) { throw new Error(`API calls exceeded`) }
+                    else if (jsondata['Note']) { throw new Error(`API calls exceeded, please wait one minute and try again.`) }
                     else { setData(Object.entries(jsondata))}
                 })
                 .catch((err) => {
@@ -95,21 +96,19 @@ function App() {
 
   function handleSubmit(e){
     e.preventDefault();
-    
     if (searchType === "Daily Time Series with Splits and Dividend Events") {
         setTickerType('TIME_SERIES_DAILY_ADJUSTED')
-        
-    } else if (searchType === "Intraday (5min) open, high, low, close prices and volume") {
-        setInterval("&interval=5min")
+    } else if (searchType === "Intraday open, high, low, close prices and volume") {
+        setInterval(`&interval=${intervalType}`)
         setTickerType('TIME_SERIES_INTRADAY')
-        
     }
     setTicker(search)
     setSearch("");
     initialRender.current = false;
-    setError('')
-    setRecentDataObject('')
-    setMetaObj('')
+    setError('');
+    setRecentDataObject('');
+    setMetaObj('');
+    return
   }
 
   return (
@@ -121,6 +120,8 @@ function App() {
         setSearch={setSearch}
         searchType={searchType}
         setSearchType={setSearchType}
+        intervalType={intervalType}
+        setIntervalType={setIntervalType}
       />
       <h3 style={error ? {color: "red", borderStyle: "solid", borderColor: "red"} : null}>{error}</h3>
       <StockQuote
