@@ -49,7 +49,6 @@ function App() {
                 })
                 .then((jsondata) => {
                     console.log(jsondata)
-                    console.log(jsondata)
                     if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messages the ones provided by the API?
                     else if (jsondata['Note']) { throw new Error(`API calls exceeded, please wait one minute and try again.`) }
                     else { setData(Object.entries(jsondata))}
@@ -65,7 +64,7 @@ function App() {
     }, [url]);
 
     useEffect(() => {
-        //console.log('effect2 ran')
+        console.log('effect2 ran')
         if (initialRender.current === false ) {
             //console.log(data[0])
             setMeta(data[0])
@@ -75,7 +74,7 @@ function App() {
     }, [data, initialRender]);
 
     useEffect(() => {
-        //console.log('effect3 ran')
+        console.log('effect3 ran')
         if (initialRender.current === false) {
             //console.log(meta[1])
             setMetaObj(meta[1])
@@ -85,9 +84,9 @@ function App() {
     }, [meta]);
 
     useEffect(() => {
-        //console.log('effect4 ran')
+        console.log('effect4 ran')
         if (initialRender.current === false) {
-            //console.log(dataArray[0])
+            console.log(dataArray[0])
             setRecentDataObject(dataArray[0])
         }
     }, [dataArray]);

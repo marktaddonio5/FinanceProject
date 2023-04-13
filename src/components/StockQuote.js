@@ -1,12 +1,32 @@
 import { useState } from "react"
 
-// Can I program the results to be only what is included in the API data? (so that no fields are blank)
 // Want to add a save button so stocks can be compared in the data table
+
+function dataObjectLoopKey(object){
+    let values = Object.keys(object)
+    let displayKey = values.map((key) => {
+        return (
+            <th>{key}</th>
+        )
+    })
+    return displayKey;
+}
+
+function dataObjectLoopVal(object) {
+    let values = Object.values(object)
+    let displayVal = values.map((val) => {
+        return (
+            <td>{val}</td>
+        )
+    })
+    return displayVal;
+}
+
 
 const StockQuote = (props) => {
     if (props.loading === true) 
     return (
-        <h1>loading</h1>
+        <h1>Loading, please wait</h1>
     )
 
     if (props.loading === false && props.error === '')
@@ -17,27 +37,33 @@ const StockQuote = (props) => {
             <h3>Type of Data: {props.metaObj['1. Information']}</h3>
             <label htmlFor="dataList">Data as of {props.metaObj['3. Last Refreshed']}</label>
             <table id="dataList" style={{listStyle: "none", width: "100vw"}}> 
+                <tbody>
                 <tr>
-                    <th>Ticker Symbol</th>
+                    {dataObjectLoopKey(props.recentDataObj)}
+                </tr>
+                <tr>
+                    {dataObjectLoopVal(props.recentDataObj)}
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    )
+}
+/*
+<th>Ticker Symbol</th>
                     <th>Open</th>
                     <th>High</th>
                     <th>Low</th>
                     <th>Close</th>
                     <th>Adjusted Close</th>
                     <th>Volume</th>
-                </tr>
-                <tr>
-                    <td>{props.metaObj[ '2. Symbol' ]}</td>
+<td>{props.metaObj[ '2. Symbol' ]}</td>
                     <td>{props.recentDataObj['1. open']}</td>
                     <td>{props.recentDataObj['2. high']}</td>
                     <td>{props.recentDataObj['3. low']}</td>
                     <td>{props.recentDataObj['4. close']}</td>
                     <td>{props.recentDataObj['5. adjusted close']}</td>
                     <td>{props.recentDataObj['6. volume']}</td>
-                </tr>
-            </table>
-        </section>
-    )
-}
+                    */
 
-export default StockQuote
+export default StockQuote;
