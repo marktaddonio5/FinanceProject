@@ -2,6 +2,7 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import StockQuote from './components/StockQuote';
 import { useState, useEffect, useRef } from "react";
+import SavedTable from './components/SavedTable';
 /* Add a way to save certain stocks */
 
 /* need loading animation/message */
@@ -23,6 +24,7 @@ function App() {
   const [recentDataObj, setRecentDataObject] = useState('')
   const [loading, setLoading] = useState("false");
   const [error, setError] = useState('');
+  const [save, setSave] = useState();
 
     let url = `https://www.alphavantage.co/query?function=${tickerType}&symbol=${ticker}${interval}&apikey=SDBO2DT8VQU27H16`;
 
@@ -48,7 +50,7 @@ function App() {
                     setError(err.message);
                 })
                 .then((jsondata) => {
-                    console.log(jsondata)
+                    //console.log(jsondata)
                     if (jsondata['Error Message']){ throw new Error(`Invalid ticker symbol`) } //Can I make these error messages the ones provided by the API?
                     else if (jsondata['Note']) { throw new Error(`API calls exceeded, please wait one minute and try again.`) }
                     else { setData(Object.entries(jsondata))}
@@ -127,7 +129,10 @@ function App() {
             recentDataObj={recentDataObj}
             loading={loading}
             error={error}
+            save={save}
+            setSave={setSave}
         />
+        <SavedTable save={save} initialRender={initialRender} />
     </div>
   );
 }
