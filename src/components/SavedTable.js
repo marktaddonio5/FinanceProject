@@ -1,18 +1,19 @@
-import { useEffect } from "react"
+import { useState } from "react"
 
 const SavedTable = (props) => {
+    
     const saveString = props.save
-    console.log(saveString)
 
     if (props.save){
     return(
-        <table>
+        <table >
             <tbody>
                 <tr>
-                    <th>Symbol</th>
+                    <label style={{fontWeight: "bold"}}>Symbol</label>
                     {saveString[0]}
                 </tr>
                 <tr>
+                    {saveString[2].toUpperCase()}
                     {saveString[1]}
                 </tr>
             </tbody>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 
 // Want to add a save button so stocks can be compared in the data table
 // Right now only returning and displaying the most recent data point
@@ -29,12 +29,12 @@ function dataObjectLoopVal(object) {
 const StockQuote = (props) => {
 
     function handleSave() {
-        {dataObjectLoopKey(props.recentDataObj)}
-        {dataObjectLoopVal(props.recentDataObj)}
-        props.setSave([dataObjectLoopKey(props.recentDataObj), dataObjectLoopVal(props.recentDataObj)])
+        let data = [dataObjectLoopKey(props.recentDataObj), dataObjectLoopVal(props.recentDataObj), props.metaObj['2. Symbol']]
+        props.setSave(data)
     }
     
-    if (props.loading === true) 
+    if (props.loading === true)
+
     return (
         <h1>Loading, please wait</h1>
     )
@@ -43,7 +43,7 @@ const StockQuote = (props) => {
 
     return (
         <section>
-            <h1>{props.metaObj['2. Symbol'] != undefined ? props.metaObj[ '2. Symbol' ].toUpperCase() : null}</h1>
+            <h1>{props.metaObj['2. Symbol'] !== undefined ? props.metaObj[ '2. Symbol' ].toUpperCase() : null}</h1>
             <h3>Last Refreshed: {props.metaObj['3. Last Refreshed']}</h3>
             <h3>Type of Data: {props.metaObj['1. Information']}</h3>
             <label htmlFor="dataList">Data as of {props.metaObj['3. Last Refreshed']}</label>
@@ -54,7 +54,7 @@ const StockQuote = (props) => {
                     {dataObjectLoopKey(props.recentDataObj)}
                 </tr>
                 <tr>
-                    <td>{props.metaObj['2. Symbol'] != undefined ? props.metaObj[ '2. Symbol' ].toUpperCase() : null}</td>
+                    <td>{props.metaObj['2. Symbol'] !== undefined ? props.metaObj[ '2. Symbol' ].toUpperCase() : null}</td>
                     {dataObjectLoopVal(props.recentDataObj)}
                 </tr>
                 </tbody>
