@@ -24,7 +24,7 @@ function App() {
   const [recentDataObj, setRecentDataObject] = useState('')
   const [loading, setLoading] = useState("false");
   const [error, setError] = useState('');
-  const [save, setSave] = useState();
+  const [save, setSave] = useState('');
 
     let url = `https://www.alphavantage.co/query?function=${tickerType}&symbol=${ticker}${interval}&apikey=SDBO2DT8VQU27H16`;
 

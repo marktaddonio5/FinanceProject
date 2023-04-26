@@ -1,24 +1,34 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const SavedTable = (props) => {
-    
-    const saveString = props.save
 
-    if (props.save){
-    return(
-        <table >
-            <tbody>
-                <tr>
-                    <label style={{fontWeight: "bold"}}>Symbol</label>
-                    {saveString[0]}
-                </tr>
-                <tr>
-                    {saveString[2].toUpperCase()}
-                    {saveString[1]}
-                </tr>
-            </tbody>
-        </table>
-    )}
+    const [newSave, setNewSave] = useState([props.save])
+    
+    useEffect(() => {
+        if (props.save !== newSave){
+            setNewSave([[...newSave], [props.save]])
+        } else {setNewSave(props.save)}
+    }, [props.save])
+
+
+    //if (data !== newSave) setNewSave([...newSave, props.save])
+
+
+        for (const array of newSave) {
+            return(
+                <table>
+                    <tbody>
+                        <tr>
+                            {array[0]}
+                        </tr>
+                        <tr>
+                            {array[2]}
+                            {array[1]}
+                        </tr>
+                    </tbody>
+                </table>
+            )
+    }
     
 }
 
